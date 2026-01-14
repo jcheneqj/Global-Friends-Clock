@@ -154,7 +154,7 @@ if ("serviceWorker" in navigator) {
             { name: "Estonia", zone: "Europe/Tallinn" }, { name: "France", zone: "Europe/Paris" },
             { name: "Japan", zone: "Asia/Tokyo" }, { name: "London", zone: "Europe/London" },
             { name: "Mexico City", zone: "America/Mexico_City" }, { name: "New York", zone: "America/New_York" },
-            { name: "India", zone: "Asia/India" }, { name: "Portugal", zone: "Europe/Lisbon" },
+            { name: "India", zone: "Asia/Kolkata" }, { name: "Portugal", zone: "Europe/Lisbon" },
             { name: "Ukraine", zone: "Europe/Kiev" }, { name: "Sydney", zone: "Australia/Sydney" },
             { name: "Turkey", zone: "Europe/Istanbul" }, { name: "California", zone: "America/Los_Angeles" }
         ];
@@ -315,7 +315,7 @@ if ("serviceWorker" in navigator) {
                 const ang = ((pLoc.hour % 12) + pLoc.minute/60) * Math.PI / 6 - Math.PI / 2;
                 const dayDiff = Math.round(pLoc.absDay - fLoc.absDay);
                 const isWork = pLoc.hour >= 9 && pLoc.hour < 17;
-                let color = isSelected ? "#F54927" : (pLoc.hour >= 12 && pLoc.hour < 24 ? "white" : "rgba(100,100,100,0.8)");
+                let color = isSelected ? "#F54927" : (pLoc.hour <12 ? "white" : "rgba(100,100,100,0.8)");
                 
                 ctx.save(); 
                 ctx.rotate(ang);
