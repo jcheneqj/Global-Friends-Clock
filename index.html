@@ -65,7 +65,7 @@
 }
 
 .modal-content { 
-    background: #8F8F8F; /* 改成深色系更符合 Apple 風格 */
+    background: #8F8F8F; /* 改成深色系 */
     color: white;
     width: 85%; 
     max-width: 350px; 
@@ -131,7 +131,7 @@ if ("serviceWorker" in navigator) {
         <div class="action-row">
             <button class="add-btn" onclick="openModal()">+</button>
             <button class="work-btn" id="workToggle" onclick="toggleWorkMode()">WORK</button>
-            <button class="reset-btn" onclick="resetTime()">RESET</button>
+            <button class="reset-btn" onclick="resetTime()">CURRENT TIME</button>
         </div>
         <p class="hint">Spin the clock to travel | Work from 9:00-17:00</p>
     </div>
@@ -253,7 +253,7 @@ if ("serviceWorker" in navigator) {
                             isDeleted = true;
                             executeDelete(f.id);
                         }
-                    }, 600); // 長按 0.6 秒
+                    }, 500); // 長按 0.5 秒
                 }, { passive: true });
 
                 b.addEventListener('touchend', () => clearTimeout(longPressTimer));
@@ -315,14 +315,14 @@ if ("serviceWorker" in navigator) {
                 const ang = ((pLoc.hour % 12) + pLoc.minute/60) * Math.PI / 6 - Math.PI / 2;
                 const dayDiff = Math.round(pLoc.absDay - fLoc.absDay);
                 const isWork = pLoc.hour >= 9 && pLoc.hour < 17;
-                let color = isSelected ? "#F54927" : (pLoc.hour <12 ? "white" : "rgba(100,100,100,0.8)");
+                let color = isSelected ? "#F54927" : (pLoc.hour <12 ? "white" : "rgba(255,255,255,0.3)");
                 
                 ctx.save(); 
                 ctx.rotate(ang);
 
                 // WORK 呼吸光邏輯
                 if (showWorkMode && isWork) {
-                    ctx.shadowBlur = 5 + (pulse * 15);
+                    ctx.shadowBlur = 5 + (pulse * 25);
                     ctx.shadowColor = color;
                 }
 
