@@ -150,6 +150,52 @@ if ("serviceWorker" in navigator) {
         const clockWrapper = document.getElementById('clockWrapper');
 
         let friends = [{ name: "Taiwan", zone: "Asia/Taipei", id: 1 }];
+        // --- 儲存與讀取邏輯 ---
+function saveData() {
+    const data = {
+        friends: friends,
+        selectedId: selectedId,
+        showWorkMode: showWorkMode
+    };
+    localStorage.setItem('global_friends_clock_v1', JSON.stringify(data));
+}
+
+function loadData() {
+    const saved = localStorage.getItem('global_friends_clock_v1');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            // 確保資料存在才覆蓋預設值
+            if (parsed.friends && parsed.friends.length > 0) {
+                friends = parsed.friends;
+                selectedId = parsed.selectedId;
+                showWorkMode = parsed.showWorkMode || false;
+                
+                // 更新 Work Mode 按鈕 UI
+                document.getElementById('workToggle').className = `work-btn ${showWorkMode ? 'on' : ''}`;
+            }
+        } catch (e) {
+            console.error("Failed to load saved data", e);
+        }
+    }
+}
+2. 修改現有的 Function 來觸發儲存
+你需要在所有會改變狀態的地方補上 saveData()。
+修改 init()：
+code
+JavaScript
+function init() {
+    loadData(); // 第一步：先讀取舊資料
+    
+    const list = document.getElementById('cityList');
+    allCities.forEach(c => {
+        const d = document.createElement('div'); d.className = 'city-item';
+        d.innerHTML = `<span>${c.name}</span><span style="opacity:0.4">${c.zone.split('/')[0]}</span>`;
+        d.onclick = () => addFriend(c); list.appendChild(d);
+    });
+    renderButtons(); 
+    requestAnimationFrame(animate);
+}
         const allCities = [
             { name: "Estonia", zone: "Europe/Tallinn" }, { name: "France", zone: "Europe/Paris" },
             { name: "Japan", zone: "Asia/Tokyo" }, { name: "London", zone: "Europe/London" },
