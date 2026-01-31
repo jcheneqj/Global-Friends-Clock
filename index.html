@@ -246,6 +246,7 @@ function loadData() {
 
         // --- 功能模組 ---
         function init() {
+            loadData();
             const list = document.getElementById('cityList');
             allCities.forEach(c => {
                 const d = document.createElement('div'); d.className = 'city-item';
@@ -271,7 +272,7 @@ function loadData() {
                 b.onclick = () => { 
                     if (isDeleted) return; // 如果剛被刪除就不觸發選取
                     selectedId = f.id; 
-                    updateActiveButtonUI(); 
+                    updateActiveButtonUI(); saveData(); 
                 };
 
                 // --- 手機版：自定義長按刪除 ---
@@ -304,7 +305,7 @@ function loadData() {
             friends = friends.filter(i => i.id !== id);
             // 如果刪掉的是當前選中的，切換到剩下的第一個
             if (selectedId === id) selectedId = friends[0].id;
-            renderButtons();
+            renderButtons(); saveData();
         }
 
        
@@ -314,13 +315,13 @@ function loadData() {
             friends.forEach((f, i) => { if(btns[i]) f.id === selectedId ? btns[i].classList.add('active') : btns[i].classList.remove('active'); });
         }
 
-        function addFriend(c) { if (friends.length < 5) { friends.push({ ...c, id: Date.now() }); renderButtons(); closeModal(); } }
+        function addFriend(c) { if (friends.length < 5) { friends.push({ ...c, id: Date.now() }); renderButtons(); closeModal(); saveData(); } }
         function openModal() { document.getElementById('modalOverlay').style.display = 'flex'; }
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
         function resetTime() { manualOffset = 0; }
         function toggleWorkMode() { 
             showWorkMode = !showWorkMode; 
-            document.getElementById('workToggle').className = `work-btn ${showWorkMode?'on':''}`; 
+            document.getElementById('workToggle').className = `work-btn ${showWorkMode?'on':''}`; saveData();
         }
 
         function animate() {
